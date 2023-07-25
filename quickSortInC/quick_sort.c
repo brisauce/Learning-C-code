@@ -19,21 +19,19 @@ int main (void){
 
     int array[length];
 
-    //  This doesn't work right now because i'm making randarrayfill fill the array with unique random numbers
-
     randArrayFill(array, length);
 
-    //printf("this is the array before:");
+    printf("this is the array before:");
 
-    //printElements(array, length);
+    printElements(array, length);
 
-    //quickSort(array, length);
+    quickSort(array, length);
 
-    //bool sorted = sortCheck(array, 0, length, true);
+    bool sorted = sortCheck(array, 0, length, true);
 
-    //printf("\nthis is the array after. It %ssorted%s", (sorted) ? "is " : "is NOT ", (sorted) ? "!!" : "????");
+    printf("\n\nthis is the array after. It %ssorted%s", (sorted) ? "is " : "is NOT ", (sorted) ? "!!" : "????");
 
-    //printElements(array, length);
+    printElements(array, length);
     return 0;
 }
 
@@ -264,9 +262,8 @@ void randArrayFill(int array[], int length)
     {
         // use % to pick your number range
         guess = (rand() % 128) + 1;
-        printf("\nwhile loop looped %d times!", i);
 
-        if (checkIfUsed(array, i, guess) && i > 0)
+        if (checkIfUsed(array, i, guess))
         {
             array[i] = guess;
             i++;
@@ -286,7 +283,6 @@ bool checkIfUsed (int array[], int stop, int guess)
         {
             return false;
         }
-        printf("\ncheckifused looped %d times!", i);
     }
     return true;
 }
