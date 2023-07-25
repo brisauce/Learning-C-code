@@ -3,7 +3,7 @@
 #include <time.h>
 #include <stdbool.h>
 
-void quickSort(int [], int);
+void quickSort(int[], int);
 void quickSortRecursion(int[], int, int);
 bool sortCheck(int[], int, int, bool);
 void printElements(int[], int);
