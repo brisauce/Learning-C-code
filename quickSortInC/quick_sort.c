@@ -13,11 +13,7 @@ bool checkIfUsed (double[], int, double);
 double randRange(double, double);
 
 //  I'm going to modify this to sort arrays of double and then possibly strings
-//  have now made it work for doubles. on to strings. the question is, how would I sort them?
 
-//  idea for sorting strings - create a randomized string of random length (within some bounds) 
-//  since character values have a numerical value associated with them, add up the values of the characters in a given string and store them.
-//  send these values through quicksort and get the sorted order, then have a different function align the strings with their respective
 int main (void){
 
     int length = 128;
