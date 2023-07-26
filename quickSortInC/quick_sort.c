@@ -3,35 +3,41 @@
 #include <time.h>
 #include <stdbool.h>
 
-void quickSort(int[], int);
-void quickSortRecursion(int[], int, int);
-bool sortCheck(int[], int, int, bool);
-void printElements(int[], int);
-int swap(int[], int, int);
-void randArrayFill(int[], int);
-void printElementsHighlight (int[], int, int, int, int);
-bool checkIfUsed (int[], int, int);
+void quickSort(double[], int);
+void quickSortRecursion(double[], int, int);
+bool sortCheck(double[], int, int, bool);
+void printElements(double[], int);
+int swap(double[], int, int);
+void randArrayFill(double[], int);
+bool checkIfUsed (double[], int, double);
+double randRange(double, double);
 
+//  I'm going to modify this to sort arrays of double and then possibly strings
+//  have now made it work for doubles. on to strings. the question is, how would I sort them?
 
+//  idea for sorting strings - create a randomized string of random length (within some bounds) 
+//  since character values have a numerical value associated with them, add up the values of the characters in a given string and store them.
+//  send these values through quicksort and get the sorted order, then have a different function align the strings with their respective
 int main (void){
 
     int length = 128;
 
-    int array[length];
+    double array[length];
 
     randArrayFill(array, length);
 
     printf("this is the array before:");
 
     printElements(array, length);
-
+ 
     quickSort(array, length);
-
-    bool sorted = sortCheck(array, 0, length, true);
+    
+    bool sorted = sortCheck(array, 0, length - 1, true);
 
     printf("\n\nthis is the array after. It %ssorted%s", (sorted) ? "is " : "is NOT ", (sorted) ? "!!" : "????");
 
     printElements(array, length);
+
     return 0;
 }
 
@@ -40,7 +46,7 @@ int main (void){
 
 
 
-void quickSort(int array[], int length){
+void quickSort(double array[], int length){
     quickSortRecursion(array, 0, length - 1);
 }
 
@@ -49,7 +55,7 @@ void quickSort(int array[], int length){
 
 
 
-void quickSortRecursion(int array[], int leftMostIndex, int rightMostIndex){
+void quickSortRecursion(double array[], int leftMostIndex, int rightMostIndex){
 
     //  if the array to be sorted is size 1, or rightmostindex is less than leftmost index, return
     if (leftMostIndex == rightMostIndex || rightMostIndex < leftMostIndex)
@@ -134,72 +140,26 @@ void quickSortRecursion(int array[], int leftMostIndex, int rightMostIndex){
 
 
 
-
-
-
-
-
-
-void printElementsHighlight (int array[], int length, int highlight1, int highlight2, int pivot) {
-
-    //  simple algo to print elements in the array chosen and "box" a highlight
-
-    printf("\n");
-
-    for (int i = 0; i < length; i++){
-        if (i == highlight1 || i == highlight2)
-        {
-            printf("{");
-        }
-        if (i == pivot)
-        {
-            printf("{");
-        }
-        
-        
-        printf("%d", array[i]);
-
-        if (i == pivot)
-        {
-            printf("}");
-        }
-        if (i == highlight1 || i == highlight2)
-        {
-            printf("} ");
-        }
-        printf(" ");
-    }
-}
-
-
-
-
-
-void printElements (int array[], int length) {
+void printElements (double array[], int length) {
 
     //  simple algo to print elements in the array chosen
 
     printf("\n");
 
     for (int i = 0; i < length; i++){
-        printf("%d ", array[i]);
+        printf("%lf ", array[i]);
     }
 }
 
 
 
 
+double temp;
 
-int temp;
+double *pTemp = &temp;
 
-int *pTemp = &temp;
-
-int swap (int array[], int index1, int index2)
+int swap (double array[], int index1, int index2)
 {
-    if (array[index1] == array[index2])
-    {
-        return 1;
-    }
     *pTemp = array[index1];
     array[index1] = array[index2];
     array[index2] = *pTemp;
@@ -211,7 +171,7 @@ int swap (int array[], int index1, int index2)
 
 
 
-bool sortCheck(int array[], int startIndex, int endIndex, bool helpful){
+bool sortCheck(double array[], int startIndex, int endIndex, bool helpful){
 
     //simple algo to check if array elements are sorted 
     int length = endIndex - startIndex;
@@ -231,11 +191,9 @@ bool sortCheck(int array[], int startIndex, int endIndex, bool helpful){
     }
     
     
-    
     if ((helpful) && (i < endIndex && (i + 1 != endIndex)))
     {
         printf("\nsortCheck stopped at element %d of %d", i, endIndex);
-        printElementsHighlight(array, length, i, i, i);
         sortCheck(array, i + 1, endIndex, helpful);
     }
     
@@ -249,19 +207,26 @@ bool sortCheck(int array[], int startIndex, int endIndex, bool helpful){
 
 
 
-void randArrayFill(int array[], int length)
+void randArrayFill(double array[], int length)
 {
     //create a random number seed based on the current time
     srand(time(0));
 
+    //  counter
     int i = 0;
-    int guess;
+
+    //  minimum value which will be generated
+    double min = 0;
+
+    //  maximum value to be generated
+    double max = 128;
+
+    double guess;
 
     //fill given array with random numbers, but make them unique
     while (i < length)
     {
-        // use % to pick your number range
-        guess = (rand() % 128) + 1;
+        guess = randRange(min, max);
 
         if (checkIfUsed(array, i, guess))
         {
@@ -275,8 +240,25 @@ void randArrayFill(int array[], int length)
     }
 }
 
-bool checkIfUsed (int array[], int stop, int guess)
+double randRange (double min, double max)
 {
+    //  creates a random number in the double precision range
+
+    //  create a number between 0 and 1 by dividing a random double number by the maximum number which can be represented by a double
+    double random = ((double) rand()) / RAND_MAX;
+
+    //  multiply this number by the desired range of numbers
+    double range = (max - min) * random;
+
+    //  shift the number by adding the lowest value
+    double number = range + min;
+
+    return number;
+}
+
+bool checkIfUsed (double array[], int stop, double guess)
+{
+    //  checks if an array element before the stop value matches the guess value
     for (int i = 0; i < stop; i++)
     {
         if (array[i] == guess)
