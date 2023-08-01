@@ -2,4 +2,5 @@
 This program calculates pi by plotting points in a hypothetical square with sides of length 2, checking which points are within a length of 1 to the origin, and finding pi by calculating 
 the ratio between the points inside this hypothetical circle and the total points in the square.
 
+It's a terrible method of calculating pi. I had to put 2e7 samples in before I nailed down 4 digits of precision.
 */
