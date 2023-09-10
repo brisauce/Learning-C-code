@@ -15,7 +15,6 @@
 #include <stdbool.h>
 
 bool isPrime (int num);
-void readList (bool * list, size_t size);
 
 
 int main (int argc, char* argv[argc + 1])
