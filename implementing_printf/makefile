@@ -5,7 +5,7 @@ CC=gcc
 CFLAGS=-g
 
 default: main.c sub-print_functions.c my_printf.c 
-	$(CC) -o main main.c my_printf.c sub-print_functions.c
+	$(CC) -o main main.c my_printf.c sub-print_functions.c -g
 
 #	what happens when you use the "clean" command.
 
